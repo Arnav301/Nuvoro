@@ -17,7 +17,7 @@ const __dirname = path.resolve();
 
 app.use(
   cors({
-    origin: "https://nuvoro-eight.vercel.app/login",
+    origin: "https://nuvoro-eight.vercel.app",
     credentials: true, // allow frontend to send cookies
   })
 );
