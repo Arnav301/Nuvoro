@@ -59,8 +59,8 @@ export async function signup(req, res) {
     res.cookie("jwt", token, {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // true in prod
-      sameSite: "none", // ✅ allow cross-origin cookies
+      secure: true,       // ✅ force HTTPS cookies in production
+      sameSite: "none",   // ✅ allow cross-origin (vercel <-> render)
     });
 
     res.status(201).json({ success: true, user: newUser });
@@ -96,8 +96,8 @@ export async function login(req, res) {
     res.cookie("jwt", token, {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none", // ✅ fix here too
+      secure: true,      // ✅ force HTTPS cookies
+      sameSite: "none",  // ✅ allow cross-origin
     });
 
     res.status(200).json({ success: true, user });
@@ -111,8 +111,8 @@ export async function login(req, res) {
 export function logout(req, res) {
   res.clearCookie("jwt", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "none", // ✅ must match the cookie settings
+    secure: true,      // ✅ must match login/signup
+    sameSite: "none",  // ✅ allow proper clearing cross-site
   });
   res.status(200).json({ success: true, message: "Logout successful" });
 }
